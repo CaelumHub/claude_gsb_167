@@ -44,13 +44,13 @@ class NumberLiteral(Expr):
     def __init__(self, value, line=1, column=1):
         super().__init__(line, column)
         self.value = value
-        # 根据是否含小数点/科学计数法区分 int / float
-        if isinstance(value, int):
-            self.kind = "float"
-        elif isinstance(value, float):
-            self.kind = "float"
+        # 根据 Python 值类型区分 int / float（解析器已按文本正确转成 int 或 float）
+        if isinstance(value, bool):
+            self.kind = "int"
+        elif isinstance(value, int):
+            self.kind = "int"
         else:
-            self.kind = "float" if ("." in str(value) or "e" in str(value).lower()) else "int"
+            self.kind = "float"
 
     def to_dict(self):
         d = super().to_dict()

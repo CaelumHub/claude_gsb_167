@@ -35,8 +35,9 @@ _COMPARABLE = {sym.TYPE_INT, sym.TYPE_FLOAT, sym.TYPE_STRING, sym.TYPE_BOOL}
 
 
 def _numeric_promote(a, b):
+    # 常规数值提升规则：任一侧为 float，结果即为 float；两侧均为 int 才是 int
     if a in _NUMERIC and b in _NUMERIC:
-        return sym.TYPE_INT
+        return sym.TYPE_FLOAT if sym.TYPE_FLOAT in (a, b) else sym.TYPE_INT
     return sym.TYPE_UNKNOWN
 
 
@@ -292,7 +293,11 @@ class SemanticAnalyzer:
         op = e.op
         if op in ("+", "-", "*", "/", "%"):
             if lt in _NUMERIC and rt in _NUMERIC:
-                e.expr_type = _numeric_promote(lt, rt)
+                if op == "/":
+                    # 本语言除法为浮点除法：int/int 结果也是 float（与 VM 一致）
+                    e.expr_type = sym.TYPE_FLOAT
+                else:
+                    e.expr_type = _numeric_promote(lt, rt)
             elif op == "+" and (lt == sym.TYPE_STRING or rt == sym.TYPE_STRING):
                 e.expr_type = sym.TYPE_STRING
             else:

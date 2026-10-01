@@ -427,7 +427,8 @@ class Parser:
             self._advance()
             text = tok.text
             try:
-                if "e" in text.lower():
+                # 含小数点或科学计数法（1.2e3）的按浮点解析，其余按整数解析
+                if "." in text or "e" in text.lower():
                     value = float(text)
                 else:
                     value = int(text)

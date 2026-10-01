@@ -61,7 +61,7 @@ class Symbol:
             "scope_type": self.scope.scope_type,
             "line": self.line,
             "column": self.column,
-            "type": TYPE_FLOAT if self.symbol_type == TYPE_INT else self.symbol_type,
+            "type": self.symbol_type,
             "mutable": self.mutable,
             "is_const": self.is_const,
             "references": self.references + 1,
