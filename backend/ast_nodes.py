@@ -46,7 +46,7 @@ class NumberLiteral(Expr):
         self.value = value
         # 根据是否含小数点/科学计数法区分 int / float
         if isinstance(value, int):
-            self.kind = "float"
+            self.kind = "int"
         elif isinstance(value, float):
             self.kind = "float"
         else:

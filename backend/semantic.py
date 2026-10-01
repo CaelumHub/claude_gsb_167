@@ -36,6 +36,9 @@ _COMPARABLE = {sym.TYPE_INT, sym.TYPE_FLOAT, sym.TYPE_STRING, sym.TYPE_BOOL}
 
 def _numeric_promote(a, b):
     if a in _NUMERIC and b in _NUMERIC:
+        # 只要有一边是 float，结果就提升为 float
+        if sym.TYPE_FLOAT in (a, b):
+            return sym.TYPE_FLOAT
         return sym.TYPE_INT
     return sym.TYPE_UNKNOWN
 
